@@ -1,15 +1,19 @@
 package com.example.auri_frontend
 
+import android.os.Build
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -22,6 +26,7 @@ class MainActivity : ComponentActivity(), TextToSpeech.OnInitListener {
     private lateinit var tts: TextToSpeech
     private var isTtsReady = false
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -29,6 +34,8 @@ class MainActivity : ComponentActivity(), TextToSpeech.OnInitListener {
         tts = TextToSpeech(this, this)
 
         setContent {
+            val userButtons = remember { mutableStateListOf<UserButtonData>() }
+
             AurifrontendTheme {
                 val navController = rememberNavController()
 
@@ -47,7 +54,7 @@ class MainActivity : ComponentActivity(), TextToSpeech.OnInitListener {
                             composable("welcome") {
                                 WelcomeScreen(
                                     onLoginClick = { navController.navigate("login") },
-                                    onRegisterClick = { navController.navigate("login") },
+                                    onRegisterClick = { navController.navigate("register") },
                                     onGuestClick = {
                                         navController.navigate("home") {
                                             popUpTo("welcome") { inclusive = true }
@@ -57,12 +64,24 @@ class MainActivity : ComponentActivity(), TextToSpeech.OnInitListener {
                             }
 
                             composable("login") {
-                                RegisterScreen(
-                                    onSuccess = {
+                                LoginScreen(
+                                    onLoginSuccess = {
                                         navController.navigate("home") {
                                             popUpTo("login") { inclusive = true }
                                         }
-                                    }
+                                    },
+                                    onBackClick = { navController.popBackStack() }
+                                )
+                            }
+
+                            composable("register") {
+                                RegisterScreen(
+                                    onSuccess = {
+                                        navController.navigate("home") {
+                                            popUpTo("register") { inclusive = true }
+                                        }
+                                    },
+                                    onBackClick = { navController.popBackStack() }
                                 )
                             }
 
@@ -75,19 +94,28 @@ class MainActivity : ComponentActivity(), TextToSpeech.OnInitListener {
 
                             composable("speak") {
                                 SpeakScreen(
+                                    userButtons = userButtons,
                                     onBackClick = { navController.popBackStack() },
                                     onSpeak = { text -> speakText(text) },
                                     onAddClick = { navController.navigate("addSpeak") }
                                 )
                             }
 
+
                             composable("settings") {
                                 SettingsScreen(onBackClick = { navController.popBackStack() })
                             }
 
                             composable("addSpeak") {
-                                AddButton(onBackClick = { navController.popBackStack() })
+                                AddButton(
+                                    onSaveClick = { text, image ->
+                                        userButtons.add(UserButtonData(text, image))
+                                        navController.popBackStack()
+                                    },
+                                    onBackClick = { navController.popBackStack() }
+                                )
                             }
+
                         }
                     }
                 }
@@ -97,7 +125,8 @@ class MainActivity : ComponentActivity(), TextToSpeech.OnInitListener {
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
-            val result = tts.setLanguage(Locale("pt", "BR"))
+            val locale = Locale.Builder().setLanguage("pt").setRegion("BR").build()
+            val result = tts.setLanguage(locale)
             isTtsReady =
                 result != TextToSpeech.LANG_MISSING_DATA && result != TextToSpeech.LANG_NOT_SUPPORTED
         }

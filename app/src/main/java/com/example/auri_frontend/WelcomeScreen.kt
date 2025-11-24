@@ -56,7 +56,7 @@ fun WelcomeScreen(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_dialog),
+                        painter = painterResource(id = R.drawable.head_icon),
                         contentDescription = "Imagem que representa diálogo",
                         modifier = Modifier
                             .size(230.dp)
