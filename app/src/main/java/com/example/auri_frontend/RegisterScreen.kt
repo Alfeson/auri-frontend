@@ -12,8 +12,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -34,7 +34,7 @@ import com.example.auri_frontend.ui.theme.Purple40
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterScreen(onSuccess: () -> Unit = {}) {
+fun RegisterScreen(onSuccess: () -> Unit = {}, onBackClick: () -> Boolean) {
     var name by remember { mutableStateOf(TextFieldValue("")) }
     var ownership by remember { mutableStateOf(TextFieldValue("")) }
     var phone by remember { mutableStateOf(TextFieldValue("")) }
@@ -95,7 +95,7 @@ fun RegisterScreen(onSuccess: () -> Unit = {}) {
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Divider(thickness = 1.dp, color = Color.LightGray.copy(alpha = 0.5f))
+            HorizontalDivider(thickness = 1.dp, color = Color.LightGray.copy(alpha = 0.5f))
 
             Text(
                 "Dependente",
@@ -118,7 +118,7 @@ fun RegisterScreen(onSuccess: () -> Unit = {}) {
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Divider(thickness = 1.dp, color = Color.LightGray.copy(alpha = 0.5f))
+            HorizontalDivider(thickness = 1.dp, color = Color.LightGray.copy(alpha = 0.5f))
 
             Text(
                 "Endereço",
