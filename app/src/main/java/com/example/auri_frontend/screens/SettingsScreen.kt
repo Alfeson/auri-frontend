@@ -1,4 +1,4 @@
-package com.example.auri_frontend
+package com.example.auri_frontend.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.auri_frontend.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

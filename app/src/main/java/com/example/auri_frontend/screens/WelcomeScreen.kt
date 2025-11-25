@@ -1,4 +1,4 @@
-package com.example.auri_frontend
+package com.example.auri_frontend.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,6 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.auri_frontend.R
 import com.example.auri_frontend.ui.theme.Purple40
 
 @Composable
@@ -56,7 +57,7 @@ fun WelcomeScreen(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_dialog),
+                        painter = painterResource(id = R.drawable.head_icon),
                         contentDescription = "Imagem que representa diálogo",
                         modifier = Modifier
                             .size(230.dp)

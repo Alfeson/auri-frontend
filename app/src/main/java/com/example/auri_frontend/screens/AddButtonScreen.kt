@@ -1,5 +1,11 @@
-package com.example.auri_frontend
+package com.example.auri_frontend.screens
 
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,16 +17,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.Image
 import androidx.compose.ui.unit.sp
+import com.example.auri_frontend.R
 import com.example.auri_frontend.ui.theme.Purple40
-
+@RequiresApi(Build.VERSION_CODES.P)
 @Composable
-fun AddButton(onBackClick: () -> Unit) {
+fun AddButton(
+    onSaveClick: (String, Bitmap?) -> Unit,
+    onBackClick: () -> Unit
+) {
     var text by remember { mutableStateOf("") }
+    var imageBitmap by remember { mutableStateOf<Bitmap?>(null) }
+
+    val context = LocalContext.current
+
+    val imagePicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+        if (uri != null) {
+            val source = ImageDecoder.createSource(context.contentResolver, uri)
+            imageBitmap = ImageDecoder.decodeBitmap(source)
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -50,24 +75,35 @@ fun AddButton(onBackClick: () -> Unit) {
                 modifier = Modifier
                     .size(200.dp)
                     .background(Color.White.copy(alpha = 0.15f), shape = RoundedCornerShape(20.dp))
-                    .clickable { /* lembrar de colocar ação de adicionar imagem */ },
+                    .clickable {
+                        imagePicker.launch("image/*")
+                    },
                 contentAlignment = Alignment.Center
             ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(14.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_icon),
-                        contentDescription = "Adicionar imagem",
-                        tint = Color.White,
-                        modifier = Modifier.size(64.dp)
-                    )
-                    Text(
-                        text = "Adicionar Imagem",
-                        color = Color.White.copy(alpha = 0.9f),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Medium
+
+                if (imageBitmap == null) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(14.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.puzzle_icon),
+                            contentDescription = "Adicionar imagem",
+                            tint = Color.White,
+                            modifier = Modifier.size(64.dp)
+                        )
+                        Text(
+                            text = "Adicionar Imagem",
+                            color = Color.White.copy(alpha = 0.9f),
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                } else {
+                    Image(
+                        bitmap = imageBitmap!!.asImageBitmap(),
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize()
                     )
                 }
             }
@@ -92,8 +128,11 @@ fun AddButton(onBackClick: () -> Unit) {
                 verticalArrangement = Arrangement.spacedBy(14.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+
                 Button(
-                    onClick = { },
+                    onClick = {
+                        if (text.isNotBlank()) onSaveClick(text, imageBitmap)
+                    },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF81C784)),
                     shape = RoundedCornerShape(16.dp),
                     modifier = Modifier
@@ -129,3 +168,4 @@ fun AddButton(onBackClick: () -> Unit) {
         }
     }
 }
+

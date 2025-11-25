@@ -1,10 +1,11 @@
-package com.example.auri_frontend
+package com.example.auri_frontend.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,9 +26,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.auri_frontend.R
 import com.example.auri_frontend.ui.theme.AurifrontendTheme
 import com.example.auri_frontend.ui.theme.Purple40
-
 
 @Composable
 fun HomeScreen(
@@ -66,7 +67,7 @@ fun HomeScreen(
                     )
 
                     Image(
-                        painter = painterResource(id = R.drawable.ic_icon),
+                        painter = painterResource(id = R.drawable.puzzle_icon),
                         contentDescription = "Ícone do app",
                         modifier = Modifier.size(120.dp)
                     )
@@ -76,8 +77,19 @@ fun HomeScreen(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        LargeButton(text = "Falas", onClick = onSpeakClick, color = Color(0xFF81C784))
-                        LargeButton(text = "Configurações", onClick = onSettingsClick, color = Color(0xFFFFB74D))
+                        LargeButtonWithIcon(
+                            text = "Falas",
+                            iconRes = R.drawable.chat_icon,
+                            onClick = onSpeakClick,
+                            color = Color(0xFF81C784)
+                        )
+
+                        LargeButtonWithIcon(
+                            text = "Configurações",
+                            iconRes = R.drawable.config_icon,
+                            onClick = onSettingsClick,
+                            color = Color(0xFFFFB74D)
+                        )
                     }
                 }
             }
@@ -86,7 +98,7 @@ fun HomeScreen(
 }
 
 @Composable
-fun LargeButton(text: String, onClick: () -> Unit, color: Color) {
+fun LargeButtonWithIcon(text: String, iconRes: Int, onClick: () -> Unit, color: Color) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(containerColor = color),
@@ -101,11 +113,21 @@ fun LargeButton(text: String, onClick: () -> Unit, color: Color) {
             .fillMaxWidth()
             .height(80.dp)
     ) {
-        Text(
-            text = text,
-            fontSize = 22.sp,
-            color = Color.White,
-            fontWeight = FontWeight.SemiBold
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Image(
+                painter = painterResource(id = iconRes),
+                contentDescription = text,
+                modifier = Modifier.size(32.dp)
+            )
+            Text(
+                text = text,
+                fontSize = 22.sp,
+                color = Color.White,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
     }
 }
