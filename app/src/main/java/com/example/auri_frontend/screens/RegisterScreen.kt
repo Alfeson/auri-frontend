@@ -1,41 +1,32 @@
-package com.example.auri_frontend
+package com.example.auri_frontend.screens
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.auri_frontend.R
 import com.example.auri_frontend.ui.theme.Purple40
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(onSuccess: () -> Unit = {}, onBackClick: () -> Boolean) {
+
     var name by remember { mutableStateOf(TextFieldValue("")) }
+    var email by remember { mutableStateOf(TextFieldValue("")) }
+    var password by remember { mutableStateOf(TextFieldValue("")) }
+    var senhaVisivel by remember { mutableStateOf(false) }
+
     var ownership by remember { mutableStateOf(TextFieldValue("")) }
     var phone by remember { mutableStateOf(TextFieldValue("")) }
 
@@ -67,8 +58,9 @@ fun RegisterScreen(onSuccess: () -> Unit = {}, onBackClick: () -> Boolean) {
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             Text(
-                "Informações daConta",
+                "Informações da Conta",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Purple40
@@ -78,6 +70,33 @@ fun RegisterScreen(onSuccess: () -> Unit = {}, onBackClick: () -> Boolean) {
                 value = name,
                 onValueChange = { name = it },
                 label = { Text("Nome") },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            OutlinedTextField(
+                value = email,
+                onValueChange = { email = it },
+                label = { Text("Email") },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            OutlinedTextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Senha") },
+                singleLine = true,
+                visualTransformation = if (senhaVisivel) VisualTransformation.None else PasswordVisualTransformation(),
+                trailingIcon = {
+                    IconButton(onClick = { senhaVisivel = !senhaVisivel }) {
+                        Icon(
+                            painter = painterResource(
+                                id = if (senhaVisivel) R.drawable.ic_eye else R.drawable.ic_eyehide
+                            ),
+                            contentDescription = "Mostrar/Ocultar senha",
+                            modifier = Modifier.size(22.dp)
+                        )
+                    }
+                },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -95,7 +114,10 @@ fun RegisterScreen(onSuccess: () -> Unit = {}, onBackClick: () -> Boolean) {
                 modifier = Modifier.fillMaxWidth()
             )
 
-            HorizontalDivider(thickness = 1.dp, color = Color.LightGray.copy(alpha = 0.5f))
+            HorizontalDivider(
+                thickness = 1.dp,
+                color = Color.LightGray.copy(alpha = 0.5f)
+            )
 
             Text(
                 "Dependente",
@@ -118,7 +140,10 @@ fun RegisterScreen(onSuccess: () -> Unit = {}, onBackClick: () -> Boolean) {
                 modifier = Modifier.fillMaxWidth()
             )
 
-            HorizontalDivider(thickness = 1.dp, color = Color.LightGray.copy(alpha = 0.5f))
+            HorizontalDivider(
+                thickness = 1.dp,
+                color = Color.LightGray.copy(alpha = 0.5f)
+            )
 
             Text(
                 "Endereço",
@@ -174,7 +199,8 @@ fun RegisterScreen(onSuccess: () -> Unit = {}, onBackClick: () -> Boolean) {
             Button(
                 onClick = {
                     if (
-                        name.text.isBlank() || ownership.text.isBlank() || phone.text.isBlank() ||
+                        name.text.isBlank() || email.text.isBlank() || password.text.isBlank() ||
+                        ownership.text.isBlank() || phone.text.isBlank() ||
                         dependentName.text.isBlank() || dependentLevel.text.isBlank() ||
                         street.text.isBlank() || number.text.isBlank() ||
                         neighborhood.text.isBlank() || city.text.isBlank() ||
@@ -185,14 +211,20 @@ fun RegisterScreen(onSuccess: () -> Unit = {}, onBackClick: () -> Boolean) {
                         message = null
                         onSuccess()
                     }
-
                 },
                 modifier = Modifier.fillMaxWidth(),
-                shape = MaterialTheme.shapes.medium,
                 colors = ButtonDefaults.buttonColors(containerColor = Purple40)
             ) {
                 Text("Cadastrar", color = Color.White, fontSize = 18.sp)
             }
+
+            TextButton(
+                onClick = { onBackClick() },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Voltar", fontSize = 16.sp, color = Color.Gray)
+            }
+
 
             message?.let {
                 Text(

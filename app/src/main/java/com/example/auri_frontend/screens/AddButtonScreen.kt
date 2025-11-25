@@ -1,4 +1,4 @@
-package com.example.auri_frontend
+package com.example.auri_frontend.screens
 
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.Image
 import androidx.compose.ui.unit.sp
+import com.example.auri_frontend.R
 import com.example.auri_frontend.ui.theme.Purple40
 @RequiresApi(Build.VERSION_CODES.P)
 @Composable

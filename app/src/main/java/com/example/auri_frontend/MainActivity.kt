@@ -18,6 +18,14 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.auri_frontend.components.UserButtonData
+import com.example.auri_frontend.screens.AddButton
+import com.example.auri_frontend.screens.HomeScreen
+import com.example.auri_frontend.screens.LoginScreen
+import com.example.auri_frontend.screens.RegisterScreen
+import com.example.auri_frontend.screens.SettingsScreen
+import com.example.auri_frontend.screens.SpeakScreen
+import com.example.auri_frontend.screens.WelcomeScreen
 import com.example.auri_frontend.ui.theme.AurifrontendTheme
 import java.util.Locale
 

@@ -1,4 +1,4 @@
-package com.example.auri_frontend
+package com.example.auri_frontend.components
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
+import com.example.auri_frontend.R
 
 @Composable
 fun UserSpeakButton(

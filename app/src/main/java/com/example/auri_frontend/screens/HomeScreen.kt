@@ -1,4 +1,4 @@
-package com.example.auri_frontend
+package com.example.auri_frontend.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.auri_frontend.R
 import com.example.auri_frontend.ui.theme.AurifrontendTheme
 import com.example.auri_frontend.ui.theme.Purple40
 

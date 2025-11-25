@@ -1,4 +1,4 @@
-package com.example.auri_frontend
+package com.example.auri_frontend.components
 
 import android.graphics.Bitmap
 
