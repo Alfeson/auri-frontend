@@ -68,7 +68,7 @@ fun SettingsScreen(onBackClick: () -> Unit = {}) {
 @Composable
 fun DropdownMenuDemo(selected: String, onSelect: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
-    val languages = listOf("pt-BR", "en-US", "es-ES")
+    val languages = listOf("pt-BR")
 
     Box {
         Button(onClick = { expanded = true }) {

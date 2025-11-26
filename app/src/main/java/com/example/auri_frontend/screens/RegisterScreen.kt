@@ -136,7 +136,7 @@ fun RegisterScreen(onSuccess: () -> Unit = {}, onBackClick: () -> Boolean) {
             OutlinedTextField(
                 value = dependentLevel,
                 onValueChange = { dependentLevel = it },
-                label = { Text("Nível (ex: Infantil, Médio, etc.)") },
+                label = { Text("Nível (ex: Infantil, Juvenil, etc.)") },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -222,7 +222,7 @@ fun RegisterScreen(onSuccess: () -> Unit = {}, onBackClick: () -> Boolean) {
                 onClick = { onBackClick() },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Voltar", fontSize = 16.sp, color = Color.Gray)
+                Text("Voltar")
             }
 
 
